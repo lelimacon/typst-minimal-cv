@@ -1,119 +1,80 @@
 #let default-theme = (
-  spacing: 36pt,
-
+  gutter-width: 60pt,
   font: "Inria Sans",
   font-size: 11pt,
-  accent-color: blue,
+  accent-color: navy.lighten(10%),
   body-color: rgb("222"),
-
-  header-accent-color: none, // inherit
-  header-body-color: none, // inherit
-
-  main-accent-color: none, // inherit
-  main-body-color: none, // inherit
-  main-width: 9fr,
-  main-gutter-width: 64pt,
-
-  aside-accent-color: none, // inherit
-  aside-body-color: none, // inherit
-  aside-width: 6fr,
-  aside-gutter-width: 46pt,
+  gutter-body-color: none, // inherit
 )
-
-
-#let cv(
-  title: "",
-  subtitle: "",
-  theme: (),
-  aside: [],
-  main,
-) = {
-  // Function to pick a key from the theme, or a default if not provided.
-  let th(key, default: none) = {
-    return if key in theme and theme.at(key) != none {
-      theme.at(key)
-    } else if default != none and default in theme and theme.at(default) != none {
-      theme.at(default)
-    } else if default != none {
-      default-theme.at(default)
-    } else {
-      default-theme.at(key)
-    }
-  }
-
-  // Fix for https://github.com/typst/typst/discussions/2919
-  show heading.where(level: 1): set text(size: th("font-size"))
-  show heading.where(level: 2): set text(size: th("font-size"))
-
-  set text(font: th("font"))
-  set text(size: th("font-size"))
-
-  set par(linebreaks: "simple", leading: 0.4em)
-  set block(above: 10pt, below: 8pt, spacing: 10pt)
-
-  {
-    show heading.where(level: 1): set text(size: 3.0em)
-    show heading.where(level: 2): set text(size: 1.6em, weight: "regular")
-    show heading.where(level: 1): set text(fill: th("header-accent-color", default: "accent-color"))
-    show heading.where(level: 2): set text(fill: th("header-body-color", default: "body-color").lighten(30%))
-
-    stack(
-      heading(level: 1, title),
-      v(th("spacing") / 2),
-      heading(level: 2, subtitle),
-      v(th("spacing") / 2),
-    )
-  }
-
-  show heading.where(level: 1): set text(size: 1.2em, fill: th("accent-color"))
-  show heading.where(level: 2): set text(size: 1.0em, fill: th("body-color"))
-
-  grid(
-    columns: (th("main-width"), th("spacing"), th("aside-width")),
-
-    // Content.
-    {
-      set grid(columns: (th("main-gutter-width"), 1fr))
-      show heading.where(level: 1): set text(fill: th("main-accent-color", default: "accent-color").lighten(30%))
-      show heading.where(level: 2): set text(fill: th("main-body-color", default: "body-color"))
-      set text(fill: th("main-body-color", default: "body-color").lighten(40%))
-      set rect(fill: th("main-accent-color", default: "accent-color"))
-
-      main
-    },
-
-    // Empty space.
-    {},
-
-    // Aside.
-    {
-      set grid(columns: (th("aside-gutter-width"), 1fr))
-      show heading.where(level: 1): set text(fill: th("aside-accent-color", default: "accent-color").lighten(30%))
-      show heading.where(level: 2): set text(fill: th("aside-body-color", default: "body-color"))
-      set text(fill: th("aside-body-color", default: "body-color").lighten(40%))
-      set rect(fill: th("aside-accent-color", default: "accent-color"))
-
-      aside
-    },
-  )
-}
 
 
 #let section(
   theme: (),
-  title,
   body,
 ) = {
-  set grid(columns: (theme.gutter-size, 1fr)) if "gutter-size" in theme
-  show heading.where(level: 1): set text(fill: theme.accent-color) if "accent-color" in theme
-  show heading.where(level: 2): set text(fill: theme.body-color) if "body-color" in theme
-  set rect(fill: theme.accent-color.darken(40%)) if "accent-color" in theme
+  set text(font: theme.font) if "font" in theme
+  set text(size: theme.font-size) if "font-size" in theme
   set text(fill: theme.body-color) if "body-color" in theme
 
-  v(6pt)
-  heading(level: 1, title)
-  rect(height: 2pt, width: 100%,)
+  show heading.where(level: 1): set text(size: 3.0 * theme.font-size) if "font-size" in theme
+  show heading.where(level: 1): set text(fill: theme.accent-color) if "accent-color" in theme
+
+  show heading.where(level: 2): set text(size: 1.6 * theme.font-size) if "font-size" in theme
+  show heading.where(level: 2): set text(fill: theme.body-color.lighten(40%)) if "body-color" in theme
+  show heading.where(level: 2): set block(above: 0pt, below: 2.6 * theme.font-size) if "font-size" in theme
+
+  show heading.where(level: 3): set text(size: 1.2 * theme.font-size) if "font-size" in theme
+  show heading.where(level: 3): set text(fill: theme.accent-color) if "accent-color" in theme
+  show heading.where(level: 3): set block(
+    above: 1.8 * theme.font-size,
+    below: 0.6 * theme.font-size,
+    spacing: 1 * theme.font-size,
+  ) if "font-size" in theme
+
+  show heading.where(level: 4): set text(size: theme.font-size) if "font-size" in theme
+  show heading.where(level: 4): set text(fill: theme.body-color) if "body-color" in theme
+
+  // Gutter.
+  show label("cv-entry"): set grid(columns: (theme.gutter-width, 1fr)) if "gutter-width" in theme
+  show label("cv-gutter"): set text(fill: theme.gutter-body-color) if "gutter-body-color" in theme and theme.gutter-body-color != none
+  show label("cv-gutter"): set text(fill: theme.body-color.lighten(40%)) if ("gutter-body-color" not in theme or theme.gutter-body-color == none) and "body-color" in theme
+
+  // Rect used for header 3 and progress bar.
+  set rect(fill: theme.accent-color.lighten(40%)) if "accent-color" in theme
+
   body
+}
+
+
+#let cv(
+  theme: (),
+  body,
+) = {
+  show heading.where(level: 2): set text(weight: "regular")
+
+  show heading.where(level: 3): set block(above: 0pt, below: 0pt)
+  show heading.where(level: 3): it => {
+    {
+      set block(below: 0pt)
+      it
+    }
+    {
+      set block(above: 6pt)
+      rect(height: 2pt, width: 100%)
+    }
+  }
+
+  show heading.where(level: 4): set block(above: 0pt, below: 0pt)
+
+  set par(linebreaks: "simple", leading: 0.4em)
+  set block(above: 10pt, below: 8pt, spacing: 10pt)
+
+  show label("cv-gutter"): set text(tracking: -0.5pt, style: "italic")
+
+  set list(marker: ([○], [•], [-]))
+
+  // Apply section with first default theme then input theme.
+  section(theme: default-theme, section(theme: theme, body))
 }
 
 
@@ -123,41 +84,37 @@
   gutter,
   title,
   body,
-) = {
-  set grid(columns: (theme.gutter-size, 1fr)) if "gutter-size" in theme
-  show heading.where(level: 2): set text(fill: theme.body-color) if "body-color" in theme
-  set text(fill: theme.body-color) if "body-color" in theme
+) = [#{
+  show: section.with(theme: theme)
 
   grid(
     {
-      set text(tracking: -0.5pt, style: "italic")
-      context {
-        set text(fill: text.fill.lighten(40%))
-        gutter
-      }
+      // Align line for emoji and different fonts.
+      // https://forum.typst.app/t/how-to-set-an-exact-line-height-no-matter-which-font-is-used-in-the-line/1426
+      set text(top-edge: 1em)
+
+      [#gutter #label("cv-gutter")]
     },
     {
-      let hasTitle = title != none
-      let hasRight = right != none
+      let has-title = title != none
+      let has-right = right != none
 
-      if hasTitle or hasRight {
+      if has-title or has-right {
+        // Align line for emoji and different fonts.
+        set text(top-edge: 1em)
+
         grid(
           columns: (1fr, auto),
-          {
+          block({
             heading(
-              level: 2,
-              context {
-                set text(fill: text.fill.darken(40%))
-                title
-              }
+              level: 4,
+              title
             )
-          },
-          context {
-            set text(fill: text.fill.darken(40%))
-            right
-          },
+          }),
+          block(right)
         )
       }
+
       if body != none {
         set par(justify: true)
         set block(above: 6pt)
@@ -165,7 +122,7 @@
       }
     }
   )
-}
+}#label("cv-entry")]
 
 
 #let progress-bar(

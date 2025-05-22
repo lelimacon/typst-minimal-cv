@@ -1,16 +1,16 @@
 #import "../package.typ": *
 
 
-#let secondary-theme = (
-  accent-color: red,
-  body-color: red,
+#let accent-theme = (
+  accent-color: maroon,
+  body-color: maroon,
 )
 
 
 #set page(
   margin: (
-    left: 36pt,
-    right: 36pt,
+    left: 42pt,
+    right: 42pt,
   ),
 )
 
@@ -19,171 +19,43 @@
 #show: cv.with(
   theme: (
     //font: "Roboto",
-    //accent-color: purple,
-    //main-accent-color: red,
-    //main-body-color: green,
-  ),
-  title: "John Doe",
-  subtitle: "Developer, Developer, Developer",
-  aside: {
-
-    section(
-      theme: secondary-theme,
-      "Contact",
-      {
-        entry(
-          "Home",
-          "Hong Kong, China",
-          none,
-        )
-        entry(
-          "Phone",
-          link("https://wa.me/85212345678", "+852 1234 5678"),
-          none,
-        )
-        entry(
-          "Email",
-          link("mailto:contact@me.com", "contact@me.com"),
-          none,
-        )
-        entry(
-          "LinkedIn",
-          link("https://www.linkedin.com/in/john-doe", "in/john-doe"),
-          none,
-        )
-      },
-    )
-
-    section(
-      "Technology Stack",
-      {
-        entry(
-          "Web",
-          "ASP.NET + Blazor",
-          [
-            #progress-bar(100%)
-          ],
-        )
-        entry(
-          none,
-          "Express + React",
-          [
-            #progress-bar(50%)
-          ],
-        )
-        entry(
-          "Native",
-          "Xamarin, Flutter",
-          [
-            #progress-bar(50%)
-          ],
-        )
-        entry(
-          "DBMS",
-          "MS SQL, PostgreSQL, MongoDB",
-          [
-            #progress-bar(75%)
-          ],
-        )
-        entry(
-          "Ops",
-          "Hosting, CI/CD",
-          [Terraform, DigitalOcean],
-        )
-        entry(
-          none,
-          "Scripting",
-          [PowerShell, VBS/VBA, Python],
-        )
-        entry(
-          "Other",
-          "Gaming",
-          [Unity, Godot],
-        )
-        entry(
-          none,
-          "Graphics",
-          [Illustrator, Blender],
-        )
-      },
-    )
-
-    section(
-      "Languages",
-      {
-        entry(
-          right: [_Full of beans_],
-          "Fluent",
-          "🇺🇸 English",
-          none,
-        )
-        entry(
-          right: [_Ich bin ein Berliner_],
-          "Proficient",
-          "🇩🇪 German",
-          none,
-        )
-        entry(
-          right: "恭喜發財",
-          none,
-          "🇨🇳 Mandarin",
-          none,
-        )
-        entry(
-          right: "いただきます",
-          "Basic",
-          "🇯🇵 Japanese",
-          none,
-        )
-      },
-    )
-
-    section(
-      "Extracurricular Activities",
-      {
-        entry(
-          "Culture",
-          none,
-          [Traveling, photography],
-        )
-        entry(
-          "Sport",
-          none,
-          [Hiking, bodybuilding, chess],
-        )
-      },
-    )
-
-  }
+    //font-size: 12pt,
+  )
 )
 
 
-#section(
-  "Professional Experience",
-  {
-    entry(
-      right: [*\@Microsoft* – Cyberport, HK 🇭🇰],
+= John Doe
+== Developer, Developer, Developer
+
+
+#grid(
+  columns: (10fr, 34pt, 6fr),
+
+  // Left column.
+  [
+    === Professional Experience
+
+    #entry(
+      right: [*\@Microsoft* -- Cyberport, HK 🇭🇰],
       "2020 - now",
-      "Software Engineer",
+      "Senior Engineer",
       [
         #par(lorem(12))
         #list(
           lorem(20),
-          lorem(7),
+          lorem(6),
           lorem(16),
         )
       ],
     )
-    entry(
-      theme: secondary-theme,
+    #entry(
+      theme: accent-theme,
       right: [*\@Supersoft* -- Seattle, US 🇺🇸],
       "2018 - now",
       "Co-Founder, CTO",
-      [
-        #par(lorem(28))
-      ],
+      [ #lorem(28) ],
     )
-    entry(
+    #entry(
       right: [*\@Microsoft* -- Berlin, DE 🇩🇪],
       "2016 - 2020",
       "Software Engineer",
@@ -195,32 +67,164 @@
         )
       ],
     )
-    entry(
+    #entry(
       right: [*\@Microsoft* -- Redmond, US 🇺🇸],
       "2015 - 2016",
       "CS Intern",
-      [
-        #par(lorem(12))
-      ],
+      [ #lorem(12) ],
     )
-  },
-)
+    #entry(
+      right: [*\@MIT* -- Cambridge, US 🇺🇸],
+      "2013, 2 yrs",
+      "Teaching Assistant",
+      [ #lorem(10) ],
+    )
 
-#section(
-  "Educational Background",
-  {
-    entry(
-      theme: secondary-theme,
+    === Educational Background
+
+    #entry(
+      theme: accent-theme,
       right: [*\@SNU 서울대학교* -- Seoul, KR 🇰🇷],
       "2012, 6 mths",
       "Univ. Exchange",
       [ #lorem(16) ],
     )
-    entry(
+    #entry(
       right: [*\@MIT* -- Cambridge, US 🇺🇸],
       "2010 - 2015",
       "Master of Engineering",
-      [ #lorem(24) ],
+      [ #lorem(20) ],
     )
-  },
+  ],
+
+  // Empty space.
+  {},
+
+  // Right column.
+  [
+    #show: section.with(
+      theme: (
+        gutter-width: 46pt,
+      )
+    )
+
+    #{
+      show: section.with(
+        theme: (
+          accent-color: rgb("888"),
+          gutter-body-color: rgb("888"),
+          body-color: rgb("888"),
+        )
+      )
+
+      heading(level: 3, "Contact")
+
+      entry(
+        "Home",
+        "Hong Kong, China",
+        none,
+      )
+      entry(
+        "Phone",
+        link("https://wa.me/85212345678", "+852 1234 5678"),
+        none,
+      )
+      entry(
+        "Email",
+        link("mailto:contact@me.com", "contact@me.com"),
+        none,
+      )
+      entry(
+        "LinkedIn",
+        link("https://www.linkedin.com/in/john-doe", "in/john-doe"),
+        none,
+      )
+    }
+
+    === Technology Stack
+
+    #entry(
+      "Web",
+      "ASP.NET + Blazor",
+      [
+        Server & WebAssembly
+        #progress-bar(100%)
+      ],
+    )
+    //#entry(
+    //  none,
+    //  "Express + React",
+    //  progress-bar(50%),
+    //)
+    #entry(
+      "Native",
+      "WPF, Xamarin",
+      progress-bar(50%),
+    )
+    #entry(
+      "DBMS",
+      "MS SQL",
+      progress-bar(75%),
+    )
+    #entry(
+      "Ops",
+      "Hosting, CI/CD",
+      [Azure, Pulumi],
+    )
+    #entry(
+      none,
+      "Scripting",
+      [PowerShell, VBS/VBA],
+    )
+    #entry(
+      "Other",
+      "Gaming",
+      [XNA, Godot],
+    )
+    #entry(
+      none,
+      "Graphics",
+      [Paint 3D, MS Designer],
+    )
+
+    === Languages
+
+    #entry(
+      right: [_Full of beans_],
+      "Fluent",
+      "🇺🇸 English",
+      none,
+    )
+    #entry(
+      right: [_Doppelgänger_],
+      "Proficient",
+      "🇩🇪 German",
+      none,
+    )
+    #entry(
+      right: "恭喜發財",
+      none,
+      "🇨🇳 Mandarin",
+      none,
+    )
+    #entry(
+      right: "いただきます",
+      "Basic",
+      "🇯🇵 Japanese",
+      none,
+    )
+
+    === Extracurricular Activities
+
+    #entry(
+      "Culture",
+      none,
+      [Traveling, photography],
+    )
+    #entry(
+      "Sport",
+      none,
+      [Hiking, bodybuilding, chess],
+    )
+  ],
 )
