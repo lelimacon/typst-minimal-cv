@@ -6,6 +6,15 @@
   body-color: red,
 )
 
+#set page(
+  margin: (
+    top: 58pt,
+    bottom: 42pt,
+    left: 34pt,
+    right: 34pt,
+  ),
+)
+
 
 // To learn about theming, see https://github.com/lelimacon/typst-minimal-cv
 #show: cv.with(
@@ -111,7 +120,7 @@
       "Languages",
       {
         entry(
-          right: [_Mother Ship_],
+          right: [_Full of beans_],
           "Fluent",
           "🇺🇸 English",
           none,

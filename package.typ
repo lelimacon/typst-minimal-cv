@@ -41,15 +41,6 @@
     }
   }
 
-  set page(
-    margin: (
-      top: 2 * th("margin"),
-      bottom: th("margin"),
-      left: th("margin"),
-      right: th("margin"),
-    ),
-  )
-
   // Fix for https://github.com/typst/typst/discussions/2919
   show heading.where(level: 1): set text(size: th("font-size"))
   show heading.where(level: 2): set text(size: th("font-size"))
