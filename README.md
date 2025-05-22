@@ -7,9 +7,7 @@ Yet another John Doe CV.
     <img src="thumbnail.png" alt="thumbnail" width="300" />
 </a>
 
-A Typst CV template that aims for :
-- Clean aesthetics
-- Easy customizability
+A Typst CV template with a focus on easy customizability.
 
 
 ## Usage
@@ -42,6 +40,7 @@ Show the root `cv` function :
   aside: [
     ASIDE CONTENT
   ]
+)
 
 MAIN CONTENT
 ```
@@ -79,13 +78,13 @@ Several content functions are available.
 
 ## Theme
 
-Customize the theme by specifying the `theme` parameter and overriding 1 or more keys.
+Customize the theme by specifying the `theme` parameter and overriding keys.
 
 ### Function `cv`
 
 | Key | Type | Default
 | --- | ---- | -------
-| `margin` | relative | `22pt`
+| `spacing` | relative | `22pt`
 | `font` | relative | `"Inria Sans"`
 | `font-size` | relative | `11pt`
 | `accent-color` | color | `blue`
@@ -116,3 +115,13 @@ Customize the theme by specifying the `theme` parameter and overriding 1 or more
 | `gutter-size` | color | inherit
 | `accent-color` | color | inherit
 | `body-color` | color | inherit
+
+
+# Version history
+
+## 0.2.0
+
+- :exclamation: Removed page configuration (customize yourself)
+- :exclamation: Remamed theme `margin` to `spacing`
+- Change theme defaults (colors, more spacing)
+- Fix progress bar

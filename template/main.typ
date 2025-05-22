@@ -6,17 +6,16 @@
   body-color: red,
 )
 
+
 #set page(
   margin: (
-    top: 58pt,
-    bottom: 42pt,
-    left: 34pt,
-    right: 34pt,
+    left: 36pt,
+    right: 36pt,
   ),
 )
 
 
-// To learn about theming, see https://github.com/lelimacon/typst-minimal-cv
+// Learn about theming at https://github.com/lelimacon/typst-minimal-cv
 #show: cv.with(
   theme: (
     //font: "Roboto",
@@ -73,13 +72,6 @@
           ],
         )
         entry(
-          "Desktop",
-          "WPF",
-          [
-            #progress-bar(75%)
-          ],
-        )
-        entry(
           "Native",
           "Xamarin, Flutter",
           [
@@ -95,13 +87,13 @@
         )
         entry(
           "Ops",
-          "Scripting",
-          [PowerShell, VBS/VBA, Python],
+          "Hosting, CI/CD",
+          [Terraform, DigitalOcean],
         )
         entry(
           none,
-          "Hosting, CI/CD",
-          [Terraform, Azure, DigitalOcean,\ GitHub Actions],
+          "Scripting",
+          [PowerShell, VBS/VBA, Python],
         )
         entry(
           "Other",
@@ -152,7 +144,7 @@
         entry(
           "Culture",
           none,
-          [Traveling, photography,\ cinephile, theater],
+          [Traveling, photography],
         )
         entry(
           "Sport",
@@ -174,11 +166,10 @@
       "2020 - now",
       "Software Engineer",
       [
-        #par(lorem(24))
+        #par(lorem(12))
         #list(
           lorem(20),
           lorem(7),
-          lorem(16),
           lorem(16),
         )
       ],
@@ -190,7 +181,6 @@
       "Co-Founder, CTO",
       [
         #par(lorem(28))
-        #par(lorem(16))
       ],
     )
     entry(
@@ -200,9 +190,8 @@
       [
         #par(lorem(12))
         #list(
-          lorem(20),
           lorem(16),
-          lorem(7),
+          lorem(12),
         )
       ],
     )
@@ -213,12 +202,6 @@
       [
         #par(lorem(12))
       ],
-    )
-    entry(
-      right: [*\@MIT* -- Cambridge, US 🇺🇸],
-      "2013, 2 yrs",
-      "Teaching Assistant",
-      [ #lorem(24) ],
     )
   },
 )

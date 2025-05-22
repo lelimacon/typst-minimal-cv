@@ -1,5 +1,5 @@
 #let default-theme = (
-  margin: 22pt,
+  spacing: 36pt,
 
   font: "Inria Sans",
   font-size: 11pt,
@@ -11,13 +11,13 @@
 
   main-accent-color: none, // inherit
   main-body-color: none, // inherit
-  main-width: 5fr,
+  main-width: 9fr,
   main-gutter-width: 64pt,
 
   aside-accent-color: none, // inherit
   aside-body-color: none, // inherit
-  aside-width: 3fr,
-  aside-gutter-width: 48pt,
+  aside-width: 6fr,
+  aside-gutter-width: 46pt,
 )
 
 
@@ -58,10 +58,10 @@
     show heading.where(level: 2): set text(fill: th("header-body-color", default: "body-color").lighten(30%))
 
     stack(
-      spacing: th("margin"),
       heading(level: 1, title),
+      v(th("spacing") / 2),
       heading(level: 2, subtitle),
-      v(th("margin"))
+      v(th("spacing") / 2),
     )
   }
 
@@ -69,7 +69,7 @@
   show heading.where(level: 2): set text(size: 1.0em, fill: th("body-color"))
 
   grid(
-    columns: (th("main-width"), th("margin"), th("aside-width")),
+    columns: (th("main-width"), th("spacing"), th("aside-width")),
 
     // Content.
     {
