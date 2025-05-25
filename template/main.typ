@@ -29,16 +29,16 @@
 
 
 #grid(
-  columns: (10fr, 34pt, 6fr),
+  columns: (9fr, 34pt, 6fr),
 
   // Left column.
   [
     === Professional Experience
 
     #entry(
-      right: [*\@Microsoft* -- Cyberport, HK 🇭🇰],
-      "2020 - now",
-      "Senior Engineer",
+      right: [*\@Microsoft* -- Cyberport, HK #inline[🇭🇰]],
+      chronology(end: "now"),
+      [Senior Engineer],
       [
         #par(lorem(12))
         #list(
@@ -46,19 +46,19 @@
           lorem(6),
           lorem(16),
         )
-      ],
+      ]
     )
     #entry(
       theme: accent-theme,
-      right: [*\@Supersoft* -- Seattle, US 🇺🇸],
-      "2018 - now",
-      "Co-Founder, CTO",
+      right: [*\@Supersoft* -- Seattle, US #inline[🇺🇸]],
+      chronology(end: "2020"),
+      [Co-Founder, CTO],
       [ #lorem(28) ],
     )
     #entry(
-      right: [*\@Microsoft* -- Berlin, DE 🇩🇪],
-      "2016 - 2020",
-      "Software Engineer",
+      right: [*\@Microsoft* -- Berlin, DE #inline[🇩🇪]],
+      chronology(end: "2018"),
+      [Software Engineer],
       [
         #par(lorem(12))
         #list(
@@ -68,31 +68,32 @@
       ],
     )
     #entry(
-      right: [*\@Microsoft* -- Redmond, US 🇺🇸],
-      "2015 - 2016",
-      "CS Intern",
-      [ #lorem(12) ],
+      right: [*\@MIT* -- Cambridge, US #inline[🇺🇸]],
+      //"2013, 2 yrs",
+      chronology(start: "2013", end: "2015"),
+      [Teaching Assistant],
+      [ #lorem(18) ],
     )
     #entry(
-      right: [*\@MIT* -- Cambridge, US 🇺🇸],
-      "2013, 2 yrs",
-      "Teaching Assistant",
-      [ #lorem(10) ],
+      right: [*\@Microsoft* -- Redmond, US #inline[🇺🇸]],
+      [2014\ 6 mths],
+      [CS Intern],
+      [ #lorem(12) ],
     )
 
     === Educational Background
 
     #entry(
       theme: accent-theme,
-      right: [*\@SNU 서울대학교* -- Seoul, KR 🇰🇷],
-      "2012, 6 mths",
-      "Univ. Exchange",
+      right: [*\@SNU 서울대학교* -- Seoul, KR #inline[🇰🇷]],
+      [2012\ 6 mths],
+      [Univ. Exchange],
       [ #lorem(16) ],
     )
     #entry(
-      right: [*\@MIT* -- Cambridge, US 🇺🇸],
-      "2010 - 2015",
-      "Master of Engineering",
+      right: [*\@MIT* -- Cambridge, US #inline[🇺🇸]],
+      chronology(start: "2010", end: "2015"),
+      [Master of Engineering],
       [ #lorem(20) ],
     )
   ],
@@ -120,22 +121,22 @@
       heading(level: 3, "Contact")
 
       entry(
-        "Home",
-        "Hong Kong, China",
+        [Home],
+        [Hong Kong, China],
         none,
       )
       entry(
-        "Phone",
+        [Phone],
         link("https://wa.me/85212345678", "+852 1234 5678"),
         none,
       )
       entry(
-        "Email",
+        [Email],
         link("mailto:contact@me.com", "contact@me.com"),
         none,
       )
       entry(
-        "LinkedIn",
+        [LinkedIn],
         link("https://www.linkedin.com/in/john-doe", "in/john-doe"),
         none,
       )
@@ -144,8 +145,8 @@
     === Technology Stack
 
     #entry(
-      "Web",
-      "ASP.NET + Blazor",
+      [Web],
+      [ASP.NET + Blazor],
       [
         Server & WebAssembly
         #progress-bar(100%)
@@ -157,33 +158,33 @@
     //  progress-bar(50%),
     //)
     #entry(
-      "Native",
-      "WPF, Xamarin",
+      [Native],
+      [WPF, Xamarin],
       progress-bar(50%),
     )
     #entry(
-      "DBMS",
-      "MS SQL",
+      [DBMS],
+      [MS SQL],
       progress-bar(75%),
     )
     #entry(
-      "Ops",
-      "Hosting, CI/CD",
+      [Ops],
+      [Hosting, CI/CD],
       [Azure, Pulumi],
     )
     #entry(
       none,
-      "Scripting",
+      [Scripting],
       [PowerShell, VBS/VBA],
     )
     #entry(
-      "Other",
-      "Gaming",
+      [Other],
+      [Gaming],
       [XNA, Godot],
     )
     #entry(
       none,
-      "Graphics",
+      [Graphics],
       [Paint 3D, MS Designer],
     )
 
@@ -191,38 +192,38 @@
 
     #entry(
       right: [_Full of beans_],
-      "Fluent",
-      "🇺🇸 English",
+      [Fluent],
+      [#inline[🇺🇸] English],
       none,
     )
     #entry(
       right: [_Doppelgänger_],
-      "Proficient",
-      "🇩🇪 German",
+      [Proficient],
+      [#inline[🇩🇪] German],
       none,
     )
     #entry(
-      right: "恭喜發財",
+      right: [恭喜發財],
       none,
-      "🇨🇳 Mandarin",
+      [#inline[🇨🇳] Mandarin],
       none,
     )
     #entry(
-      right: "いただきます",
-      "Basic",
-      "🇯🇵 Japanese",
+      right: [いただきます],
+      [Basic],
+      [#inline[🇯🇵] Japanese],
       none,
     )
 
     === Extracurricular Activities
 
     #entry(
-      "Culture",
+      [Culture],
       none,
       [Traveling, photography],
     )
     #entry(
-      "Sport",
+      [Sport],
       none,
       [Hiking, bodybuilding, chess],
     )
