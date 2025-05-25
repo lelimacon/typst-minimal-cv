@@ -103,19 +103,15 @@
 
   // Right column.
   [
-    #show: section.with(
-      theme: (
-        gutter-width: 46pt,
-      )
+    #show: theme.with(
+      gutter-width: 48pt,
     )
 
     #{
-      show: section.with(
-        theme: (
-          accent-color: rgb("888"),
-          gutter-body-color: rgb("888"),
-          body-color: rgb("888"),
-        )
+      show: theme.with(
+        accent-color: rgb("888"),
+        gutter-body-color: rgb("888"),
+        body-color: rgb("888"),
       )
 
       heading(level: 3, "Contact")

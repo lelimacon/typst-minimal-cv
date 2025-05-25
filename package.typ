@@ -96,44 +96,66 @@
   ]
 }
 
-
-#let section(
+#let internal-theme(
   theme: (),
   body,
 ) = {
-  set text(font: theme.font) if "font" in theme
-  set text(size: theme.font-size) if "font-size" in theme
-  set text(fill: theme.body-color) if "body-color" in theme
+  let th(field) = field in theme and theme.at(field) != none
 
-  show heading.where(level: 1): set text(size: 3.0 * theme.font-size) if "font-size" in theme
-  show heading.where(level: 1): set text(fill: theme.accent-color) if "accent-color" in theme
+  set text(font: theme.font) if th("font")
+  set text(size: theme.font-size) if th("font-size")
+  set text(fill: theme.body-color) if th("body-color")
 
-  show heading.where(level: 2): set text(size: 1.6 * theme.font-size) if "font-size" in theme
-  show heading.where(level: 2): set text(fill: theme.body-color.lighten(40%)) if "body-color" in theme
-  show heading.where(level: 2): set block(above: 0pt, below: 2.6 * theme.font-size) if "font-size" in theme
+  show heading.where(level: 1): set text(size: 3.0 * theme.font-size) if th("font-size")
+  show heading.where(level: 1): set text(fill: theme.accent-color) if th("accent-color")
 
-  show heading.where(level: 3): set text(size: 1.2 * theme.font-size) if "font-size" in theme
-  show heading.where(level: 3): set text(fill: theme.accent-color) if "accent-color" in theme
+  show heading.where(level: 2): set text(size: 1.6 * theme.font-size) if th("font-size")
+  show heading.where(level: 2): set text(fill: theme.body-color.lighten(40%)) if th("body-color")
+  show heading.where(level: 2): set block(above: 0pt, below: 2.6 * theme.font-size) if th("font-size")
+
+  show heading.where(level: 3): set text(size: 1.2 * theme.font-size) if th("font-size")
+  show heading.where(level: 3): set text(fill: theme.accent-color) if th("accent-color")
   show heading.where(level: 3): set block(
     above: 1.8 * theme.font-size,
     below: 0.6 * theme.font-size,
     spacing: 1 * theme.font-size,
-  ) if "font-size" in theme
+  ) if th("font-size")
 
-  show heading.where(level: 4): set text(size: theme.font-size) if "font-size" in theme
-  show heading.where(level: 4): set text(fill: theme.body-color) if "body-color" in theme
+  show heading.where(level: 4): set text(size: theme.font-size) if th("font-size")
+  show heading.where(level: 4): set text(fill: theme.body-color) if th("body-color")
 
   // Gutter.
-  show label("cv-entry"): set grid(columns: (theme.gutter-width, 1fr)) if "gutter-width" in theme
-  show label("cv-gutter"): set text(fill: theme.gutter-body-color) if "gutter-body-color" in theme and theme.gutter-body-color != none
-  show label("cv-gutter"): set text(fill: theme.body-color.lighten(40%)) if ("gutter-body-color" not in theme or theme.gutter-body-color == none) and "body-color" in theme
+  show label("cv-entry"): set grid(columns: (theme.gutter-width, 1fr)) if th("gutter-width")
+  show label("cv-gutter"): set text(fill: theme.gutter-body-color) if th("gutter-body-color") and theme.gutter-body-color != none
+  show label("cv-gutter"): set text(fill: theme.body-color.lighten(40%)) if ("gutter-body-color" not in theme or theme.gutter-body-color == none) and th("body-color")
 
   // Rect used for header 3 and progress bar.
-  set rect(fill: theme.accent-color.lighten(40%)) if "accent-color" in theme
-  set circle(fill: theme.accent-color.lighten(40%)) if "accent-color" in theme
+  set rect(fill: theme.accent-color.lighten(40%)) if th("accent-color")
+  set circle(fill: theme.accent-color.lighten(40%)) if th("accent-color")
 
   body
 }
+
+
+#let theme(
+  gutter-width: none,
+  font: none,
+  font-size: none,
+  accent-color: none,
+  body-color: none,
+  gutter-body-color: none,
+  body,
+) = internal-theme(
+  theme: (
+    gutter-width: gutter-width,
+    font: font,
+    font-size: font-size,
+    accent-color: accent-color,
+    body-color: body-color,
+    gutter-body-color: gutter-body-color,
+  ),
+  body,
+)
 
 
 #let cv(
@@ -198,13 +220,13 @@
         })
       }
 
-    it-entry
-  })
-}
+      it-entry
+    })
+  }
 
 
-  // Apply section with first default theme then input theme.
-  section(theme: default-theme, section(theme: theme, body))
+  // Apply theme with first default theme then input theme.
+  internal-theme(theme: default-theme, internal-theme(theme: theme, body))
 }
 
 
@@ -215,7 +237,7 @@
   title,
   body,
 ) = [#{
-  show: section.with(theme: theme)
+  show: internal-theme.with(theme: theme)
 
   grid(
     [
