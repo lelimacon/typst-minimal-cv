@@ -1,12 +1,14 @@
 #let min-version = version(0, 12, 0)
 
 #let default-theme = (
+  // TOOD: Add spacing.
   gutter-width: 42pt,
   font: "Inria Sans",
   font-size: 11pt,
   accent-color: blue.darken(30%),
   body-color: rgb("222"),
   gutter-body-color: none, // inherit
+  section-style: "underlined", // "underlined" | "outlined" | "box" | "bullet-point"
 )
 
 
@@ -16,7 +18,7 @@
 }
 
 
-#let display-size(size) = [
+#let internal-display-size(size) = [
   #calc.round(size.width.pt())x#calc.round(size.height.pt())
 ]
 
@@ -43,10 +45,9 @@
       dx: bar-spacing,
       dy: top-gap,
       rect(
-        //fill: black,
-        //stroke: red,
         height: height - top-gap - bot-gap,
         width: bar-width,
+        stroke: none,
       )
     )
     // Bullet points.
@@ -57,6 +58,7 @@
         dy: end-height / 2 - bullet-radius,
         circle(
           radius: bullet-radius,
+          stroke: none,
         )
       )
     }
@@ -67,6 +69,7 @@
         dy: -start-height / 2 + bullet-radius,
         circle(
           radius: bullet-radius,
+          stroke: none,
         )
       )
     }
@@ -101,7 +104,11 @@
   theme: (),
   body,
 ) = {
-  let th(field) = field in theme and theme.at(field) != none
+  let th(field, v: none) = {
+    field in theme and theme.at(field) != none and (
+      v == none or theme.at(field) == v
+    )
+  }
 
   set text(font: theme.font) if th("font")
   set text(size: theme.font-size) if th("font-size")
@@ -125,14 +132,28 @@
   show heading.where(level: 4): set text(size: theme.font-size) if th("font-size")
   show heading.where(level: 4): set text(fill: theme.body-color) if th("body-color")
 
+  // Section.
+  // HACK: Use `ellipse.inset` to store section style.
+  show label("cv-section"): set ellipse(inset: 1pt) if th("section-style", v: "underlined")
+  show label("cv-section"): set ellipse(inset: 2pt) if th("section-style", v: "outlined")
+  show label("cv-section"): set ellipse(inset: 3pt) if th("section-style", v: "box")
+  show label("cv-section"): set ellipse(inset: 4pt) if th("section-style", v: "bullet-point")
+
   // Gutter.
   show label("cv-entry"): set grid(columns: (theme.gutter-width, 1fr)) if th("gutter-width")
-  show label("cv-gutter"): set text(fill: theme.gutter-body-color) if th("gutter-body-color") and theme.gutter-body-color != none
-  show label("cv-gutter"): set text(fill: theme.body-color.lighten(40%)) if ("gutter-body-color" not in theme or theme.gutter-body-color == none) and th("body-color")
+  show label("cv-gutter"): set text(fill: theme.gutter-body-color) if th("gutter-body-color")
+  show label("cv-gutter"): set text(fill: theme.body-color.lighten(40%)) if th("body-color") and not th("gutter-body-color")
 
-  // Rect used for header 3 and progress bar.
-  set rect(fill: theme.accent-color.lighten(40%)) if th("accent-color")
-  set circle(fill: theme.accent-color.lighten(40%)) if th("accent-color")
+  // Shapes used in section header, chronology and progress bar.
+  // TODO: Filter by label (?)
+  set rect(
+    fill: theme.accent-color.lighten(60%),
+    stroke: theme.accent-color.lighten(40%),
+  ) if th("accent-color")
+  set circle(
+    fill: theme.accent-color.lighten(60%),
+    stroke: theme.accent-color.lighten(40%),
+  ) if th("accent-color")
 
   body
 }
@@ -145,6 +166,7 @@
   accent-color: none,
   body-color: none,
   gutter-body-color: none,
+  section-style: "underlined",
   body,
 ) = internal-theme(
   theme: (
@@ -154,6 +176,7 @@
     accent-color: accent-color,
     body-color: body-color,
     gutter-body-color: gutter-body-color,
+    section-style: section-style,
   ),
   body,
 )
@@ -182,6 +205,31 @@
 }
 
 
+#let internal-outline(
+  section,
+) = {
+  let space-x = 6pt
+  let space-y = 8pt
+
+  place(
+    left,
+    dx: -space-x,
+    dy: -space-y,
+
+    layout(layout-section => {
+      let dummy-section = box(width: layout-section.width, section)
+      let section-size = measure(dummy-section)
+
+      rect(
+        width: section-size.width + 2 * space-x,
+        height: section-size.height + 2 * space-y,
+        fill: none,
+      )
+    })
+  )
+}
+
+
 #let cv(
   theme: (),
   ignore-version: false,
@@ -190,16 +238,6 @@
   show heading.where(level: 2): set text(weight: "regular")
 
   show heading.where(level: 3): set block(above: 0pt, below: 0pt)
-  show heading.where(level: 3): it => {
-    {
-      set block(below: 0pt)
-      it
-    }
-    {
-      set block(above: 6pt)
-      rect(height: 2pt, width: 100%)
-    }
-  }
 
   show heading.where(level: 4): set block(above: 0pt, below: 0pt)
 
@@ -209,6 +247,71 @@
   show label("cv-gutter"): set text(tracking: -0.5pt, style: "italic")
 
   set list(marker: ([○], [•], [-]))
+
+  // Section.
+  show label("cv-section"): it-section => {
+    // HACK: Use `ellipse.inset` to store section style.
+    let section-style-index = ellipse.inset.length.pt()
+    let section-style = if (section-style-index == 1) {
+      "underlined"
+    } else if (section-style-index == 2) {
+      "outlined"
+    } else if (section-style-index == 3) {
+      "box"
+    } else {
+      "bullet-point"
+    }
+
+    show heading.where(level: 3): it-heading => {
+      if (section-style == "underlined") {
+        {
+          set block(below: 0pt)
+          it-heading
+        }
+        {
+          set block(above: 6pt)
+          rect(
+            height: 2pt,
+            width: 100%,
+            stroke: none,
+          )
+        }
+      }
+      else if (section-style == "outlined" or section-style == "box") {
+        {
+          set block(below: 0pt)
+          it-heading
+        }
+        {
+          set block(above: 4pt)
+          block()
+        }
+      }
+      else {
+        it-heading
+      }
+    }
+
+    // DEBUG: Show section style.
+    //[*SECTION STYLE = #section-style (#section-style-index)*]
+
+    // Place rect outside section as an outline.
+    if (section-style == "outlined") [
+      #internal-outline(it-section)
+      #it-section
+    ]
+    else if (section-style == "box") {
+      show label("cv-section-body"): it-section-body => [
+        #internal-outline(it-section-body)
+        #it-section-body
+      ]
+
+      it-section
+    }
+    else {
+      it-section
+    }
+  }
 
   // Chronology auto height.
   show label("cv-entry"): it-entry => {
@@ -231,11 +334,12 @@
               right-cell
             }))
           let right-cell-height = measure(right-cell-dummy).height
-          let debug-box = box(stroke: red, fill: white, width: right-cell-width, height: right-cell-height, right-cell-dummy)
 
+          // DEBUG: Highlight right-cell outline.
+          //let debug-box = box(stroke: red, fill: white, width: right-cell-width, height: right-cell-height, right-cell-dummy)
           //#place(top + right, dx: 267pt, debug-box)
-          //l1: #display-size(layout-entry)
-          //l2: #display-size(layout-chronology)
+          //l1: #internal-display-size(layout-entry)
+          //l2: #internal-display-size(layout-chronology)
 
           chronology-fixed-height(
             right-cell-height,
@@ -299,6 +403,25 @@
 }#label("cv-entry")]
 
 
+#let section(
+  theme: (),
+  title,
+  body,
+) = {
+  show: internal-theme.with(theme: theme)
+
+  [#{
+    if (title != none) {
+      heading(level: 3, title)
+    }
+    [
+      #body
+      #label("cv-section-body")
+    ]
+  }#label("cv-section")]
+}
+
+
 #let progress-bar(
   progress,
 ) = {
@@ -311,12 +434,12 @@
   set par(leading: 0em)
 
   context {
-    let light-accent = rect.fill.lighten(30%)
+    let light-accent = rect.fill//.lighten(30%)
 
     rect(
       height: 6pt,
       width: 100%,
-      stroke: rect.fill,
+      //stroke: rect.fill,
       fill: gradient.linear(
         (light-accent, 0%),
         (light-accent, progress),
