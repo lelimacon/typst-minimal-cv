@@ -1,3 +1,5 @@
+#let min-version = version(0, 12, 0)
+
 #let default-theme = (
   gutter-width: 42pt,
   font: "Inria Sans",
@@ -88,8 +90,7 @@
   [
     #stack(
       end,
-      [ // placeholder.
-      ],
+      [], // placeholder.
       start,
     )
     #label("cv-chronology-auto")
@@ -158,8 +159,32 @@
 )
 
 
+#let internal-version-warning() = {
+  block(
+    width: 100%,
+    inset: 12pt,
+    stroke: red,
+    fill: red.lighten(80%),
+
+    [
+      *You Typst version (#sys.version)
+      is lower than recommended version (#min-version).*
+
+      Ignore this warning with flag `ignore-version` :
+      ```typst
+      #show: cv.with(
+        theme: (...)
+        ignore-version: true,
+      )
+      ```
+    ]
+  )
+}
+
+
 #let cv(
   theme: (),
+  ignore-version: false,
   body,
 ) = {
   show heading.where(level: 2): set text(weight: "regular")
@@ -224,6 +249,9 @@
     })
   }
 
+  if (sys.version < min-version and not ignore-version) {
+    internal-version-warning()
+  }
 
   // Apply theme with first default theme then input theme.
   internal-theme(theme: default-theme, internal-theme(theme: theme, body))
