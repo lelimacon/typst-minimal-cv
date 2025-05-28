@@ -1,9 +1,11 @@
 #import "../package.typ": *
 
-
-#let accent-theme = (
-  accent-color: maroon,
-  body-color: maroon,
+// Optional document metadata.
+#set document(
+  title: "Curriculum Vitae",
+  author: "John Doe <john@doe>",
+  keywords: ("cv", "resume"),
+  date: datetime(year: 1999, month: 12, day: 31),
 )
 
 
@@ -21,6 +23,12 @@
     //font: "Roboto",
     //font-size: 12pt,
   )
+)
+
+// Alternate theming used in several areas.
+#let accent-theme = (
+  accent-color: maroon,
+  body-color: maroon,
 )
 
 
@@ -136,7 +144,7 @@
         )
         entry(
           [Email],
-          link("mailto:contact@me.com", "contact@me.com"),
+          link("mailto:john@doe", "john@doe"),
           none,
         )
         entry(
