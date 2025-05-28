@@ -148,9 +148,6 @@
     )
 
     section(
-      theme: (
-        section-style: "outlined",
-      ),
       [Technology Stack],
       {
         entry(

@@ -1,5 +1,9 @@
 #let min-version = version(0, 12, 0)
 
+#let section-bullet-point-radius = 2pt
+#let chronology-bullet-point-radius = 2pt
+
+
 #let default-theme = (
   // TOOD: Add spacing.
   gutter-width: 42pt,
@@ -8,7 +12,7 @@
   accent-color: blue.darken(30%),
   body-color: rgb("222"),
   gutter-body-color: none, // inherit
-  section-style: "underlined", // "underlined" | "outlined" | "box" | "bullet-point"
+  section-style: "bullet-point", // "underlined" | "outlined" | "box" | "bullet-point"
 )
 
 
@@ -28,7 +32,7 @@
   start: [],
   end: [],
 ) = {
-  let bullet-radius = 2pt
+  let bullet-radius = chronology-bullet-point-radius
   let gap-height = 12pt
   let bar-spacing = 8pt
   let bar-width = 1pt
@@ -141,6 +145,7 @@
 
   // Gutter.
   show label("cv-entry"): set grid(columns: (theme.gutter-width, 1fr)) if th("gutter-width")
+  show label("cv-section-header"): set grid(columns: (theme.gutter-width, 1fr)) if th("gutter-width")
   show label("cv-gutter"): set text(fill: theme.gutter-body-color) if th("gutter-body-color")
   show label("cv-gutter"): set text(fill: theme.body-color.lighten(40%)) if th("body-color") and not th("gutter-body-color")
 
@@ -166,7 +171,7 @@
   accent-color: none,
   body-color: none,
   gutter-body-color: none,
-  section-style: "underlined",
+  section-style: none,
   body,
 ) = internal-theme(
   theme: (
@@ -278,14 +283,27 @@
         }
       }
       else if (section-style == "outlined" or section-style == "box") {
-        {
-          set block(below: 0pt)
-          it-heading
-        }
-        {
-          set block(above: 4pt)
-          block()
-        }
+        it-heading
+        v(4pt)
+      }
+      else if (section-style == "bullet-point") {
+        let bullet-radius = section-bullet-point-radius
+
+        grid(
+          //columns: (inherited by theme),
+          align(
+            right + horizon,
+
+            block(
+              inset: (right: 12.5pt - bullet-radius),
+              circle(radius: bullet-radius)
+            )
+          ),
+          {
+            it-heading
+          }
+        )
+        v(8pt)
       }
       else {
         it-heading
@@ -372,6 +390,7 @@
   show: internal-theme.with(theme: theme)
 
   grid(
+    //columns: (inherited by theme),
     [
       #gutter
       #label("cv-gutter")
@@ -412,7 +431,10 @@
 
   [#{
     if (title != none) {
-      heading(level: 3, title)
+      [
+        #heading(level: 3, title)
+        #label("cv-section-header")
+      ]
     }
     [
       #body
