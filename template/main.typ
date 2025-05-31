@@ -53,7 +53,7 @@
             #list(
               lorem(20),
               lorem(6),
-              lorem(16),
+              lorem(12),
             )
           ]
         )

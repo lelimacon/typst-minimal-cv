@@ -1,11 +1,16 @@
 #let min-version = version(0, 12, 0)
 
 #let section-bullet-point-radius = 2pt
+#let section-underlined-bar-thickness = 2pt
+
 #let chronology-bullet-point-radius = 2pt
+#let chronology-bar-width = 1pt
+
+#let progress-bar-height = 6pt
 
 
 #let default-theme = (
-  // TOOD: Add spacing.
+  spacing: 14pt,
   gutter-width: 42pt,
   font: "Inria Sans",
   font-size: 11pt,
@@ -33,58 +38,65 @@
   end: [],
 ) = {
   let bullet-radius = chronology-bullet-point-radius
-  let gap-height = 12pt
-  let bar-spacing = 8pt
-  let bar-width = 1pt
+  let bar-width = chronology-bar-width
 
-  block(inset: (right: 20pt), context [
-    #let start-height = if (start == []) { 0pt } else { measure(start).height }
-    #let end-height = if (end == []) { 0pt } else { measure(end).height }
-    #let top-gap = if (end == []) { 0pt } else { gap-height + end-height / 2 }
-    #let bot-gap = if (start == []) { 0pt } else { gap-height + start-height / 2 }
+  context {
+    let spacing = ellipse.outset
+    let gap-height = 8pt + 0.4 * spacing
+    let bar-spacing = 1.0 * spacing
 
-    // Bar.
-    #place(
-      top + right,
-      dx: bar-spacing,
-      dy: top-gap,
-      rect(
-        height: height - top-gap - bot-gap,
-        width: bar-width,
-        stroke: none,
-      )
-    )
-    // Bullet points.
-    #if (end != []) {
-      place(
-        top + right,
-        dx: bar-spacing - bar-width / 2 + bullet-radius,
-        dy: end-height / 2 - bullet-radius,
-        circle(
-          radius: bullet-radius,
-          stroke: none,
+    let start-height = if (start == []) { 0pt } else { measure(start).height }
+    let end-height = if (end == []) { 0pt } else { measure(end).height }
+    let top-gap = if (end == []) { 0pt } else { gap-height + end-height / 2 }
+    let bot-gap = if (start == []) { 0pt } else { gap-height + start-height / 2 }
+
+    block(
+      inset: (right: 2.0 * bar-spacing),
+      [
+        // Bar.
+        #place(
+          top + right,
+          dx: bar-spacing,
+          dy: top-gap,
+          rect(
+            height: height - top-gap - bot-gap,
+            width: bar-width,
+            stroke: none,
+          )
         )
-      )
-    }
-    #if (start != []) {
-      place(
-        bottom + right,
-        dx: bar-spacing - bar-width / 2 + bullet-radius,
-        dy: -start-height / 2 + bullet-radius,
-        circle(
-          radius: bullet-radius,
-          stroke: none,
-        )
-      )
-    }
+        // Bullet points.
+        #if (end != []) {
+          place(
+            top + right,
+            dx: bar-spacing - bar-width / 2 + bullet-radius,
+            dy: end-height / 2 - bullet-radius,
+            circle(
+              radius: bullet-radius,
+              stroke: none,
+            )
+          )
+        }
+        #if (start != []) {
+          place(
+            bottom + right,
+            dx: bar-spacing - bar-width / 2 + bullet-radius,
+            dy: -start-height / 2 + bullet-radius,
+            circle(
+              radius: bullet-radius,
+              stroke: none,
+            )
+          )
+        }
 
-    #stack(
-      end,
-      v(height - start-height - end-height),
-      start,
+        #stack(
+          end,
+          v(height - start-height - end-height),
+          start,
+        )
+        #label("cv-chronology")
+      ]
     )
-    #label("cv-chronology")
-  ])
+  }
 }
 
 
@@ -114,6 +126,17 @@
     )
   }
 
+  // Spacing.
+  // HACK: Use `ellipse.outset` to store spacing.
+  set ellipse(outset: theme.spacing) if th("spacing")
+
+  set par(linebreaks: "simple", leading: 0.4 * theme.spacing) if th("spacing")
+  set block(
+    above: 6pt + 0.4 * theme.spacing,
+    below: 4pt + 0.4 * theme.spacing,
+    spacing: 2pt + 0.4 * theme.spacing,
+  ) if th("spacing")
+
   set text(font: theme.font) if th("font")
   set text(size: theme.font-size) if th("font-size")
   set text(fill: theme.body-color) if th("body-color")
@@ -123,15 +146,18 @@
 
   show heading.where(level: 2): set text(size: 1.6 * theme.font-size) if th("font-size")
   show heading.where(level: 2): set text(fill: theme.body-color.lighten(40%)) if th("body-color")
-  show heading.where(level: 2): set block(above: 0pt, below: 2.6 * theme.font-size) if th("font-size")
+  show heading.where(level: 2): set block(
+    above: 12pt + 0.6 * theme.spacing,
+    below: 18pt + 0.6 * theme.spacing,
+  ) if th("spacing")
 
   show heading.where(level: 3): set text(size: 1.2 * theme.font-size) if th("font-size")
   show heading.where(level: 3): set text(fill: theme.accent-color) if th("accent-color")
   show heading.where(level: 3): set block(
-    above: 1.8 * theme.font-size,
-    below: 0.6 * theme.font-size,
-    spacing: 1 * theme.font-size,
-  ) if th("font-size")
+    above: 8pt + theme.spacing,
+    below: 4pt + 0.6 * theme.spacing,
+    spacing: 6pt + 0.4 * theme.spacing,
+  ) if th("spacing")
 
   show heading.where(level: 4): set text(size: theme.font-size) if th("font-size")
   show heading.where(level: 4): set text(fill: theme.body-color) if th("body-color")
@@ -140,8 +166,10 @@
   // HACK: Use `ellipse.inset` to store section style.
   show label("cv-section"): set ellipse(inset: 1pt) if th("section-style", v: "underlined")
   show label("cv-section"): set ellipse(inset: 2pt) if th("section-style", v: "outlined")
+  //show label("cv-section"): set sys.inputs(toto: "") if th("section-style", v: "outlined")
   show label("cv-section"): set ellipse(inset: 3pt) if th("section-style", v: "box")
   show label("cv-section"): set ellipse(inset: 4pt) if th("section-style", v: "bullet-point")
+  //if th("section-style") [#metadata("section-style(" + theme.section-style + ")") <cv-section-metadata>]
 
   // Gutter.
   show label("cv-entry"): set grid(columns: (theme.gutter-width, 1fr)) if th("gutter-width")
@@ -212,9 +240,10 @@
 
 #let internal-outline(
   section,
-) = {
-  let space-x = 6pt
-  let space-y = 8pt
+) = context {
+  let spacing = ellipse.outset
+  let space-x = 4pt + 0.5 * spacing
+  let space-y = 5pt + 0.5 * spacing
 
   place(
     left,
@@ -240,14 +269,16 @@
   ignore-version: false,
   body,
 ) = {
+  set text(costs: (
+    hyphenation: 200%,
+    runt: 200%,
+  ))
+
   show heading.where(level: 2): set text(weight: "regular")
 
   show heading.where(level: 3): set block(above: 0pt, below: 0pt)
 
   show heading.where(level: 4): set block(above: 0pt, below: 0pt)
-
-  set par(linebreaks: "simple", leading: 0.4em)
-  set block(above: 10pt, below: 8pt, spacing: 10pt)
 
   show label("cv-gutter"): set text(tracking: -0.5pt, style: "italic")
 
@@ -268,23 +299,26 @@
     }
 
     show heading.where(level: 3): it-heading => {
+      let spacing = ellipse.outset
+
       if (section-style == "underlined") {
         {
           set block(below: 0pt)
           it-heading
         }
         {
-          set block(above: 6pt)
+          set block(above: 0.6 * spacing)
           rect(
-            height: 2pt,
+            height: section-underlined-bar-thickness,
             width: 100%,
             stroke: none,
           )
         }
       }
       else if (section-style == "outlined" or section-style == "box") {
+
         it-heading
-        v(4pt)
+        v(0.4 * spacing)
       }
       else if (section-style == "bullet-point") {
         let bullet-radius = section-bullet-point-radius
@@ -295,7 +329,7 @@
             right + horizon,
 
             block(
-              inset: (right: 12.5pt - bullet-radius),
+              inset: (right: spacing - bullet-radius + 0.5pt),
               circle(radius: bullet-radius)
             )
           ),
@@ -314,10 +348,14 @@
     //[*SECTION STYLE = #section-style (#section-style-index)*]
 
     // Place rect outside section as an outline.
-    if (section-style == "outlined") [
-      #internal-outline(it-section)
-      #it-section
-    ]
+    if (section-style == "outlined") {
+      internal-outline(it-section)
+      it-section
+      context {
+        let spacing = ellipse.outset
+        v(0.4 * spacing)
+      }
+    }
     else if (section-style == "box") {
       show label("cv-section-body"): it-section-body => [
         #internal-outline(it-section-body)
@@ -325,6 +363,10 @@
       ]
 
       it-section
+      context {
+        let spacing = ellipse.outset
+        v(0.4 * spacing)
+      }
     }
     else {
       it-section
@@ -413,9 +455,14 @@
       }
 
       if body != none {
-        set par(justify: true)
-        set block(above: 6pt)
-        body
+        context {
+          let spacing = ellipse.outset
+
+          set par(justify: true)
+          set block(above: 0.6 * spacing)
+
+          body
+        }
       }
     }
   )
@@ -452,14 +499,11 @@
     progress = 0.1%
   }
 
-  set block(above: 6pt, below: 0pt, spacing: 0pt)
-  set par(leading: 0em)
-
   context {
     let light-accent = rect.fill//.lighten(30%)
 
     rect(
-      height: 6pt,
+      height: progress-bar-height,
       width: 100%,
       //stroke: rect.fill,
       fill: gradient.linear(
