@@ -18,7 +18,7 @@ Create a new project based on the template [minimal-cv](https://typst.app/univer
 
 ### Locally
 
-The default font is ["Inria Sans"](https://fonts.google.com/specimen/Inria+Sans). Make sure it is installed on your system, or change it in [# Theme](#theme).
+The default font is ["Inria Sans"](https://fonts.google.com/specimen/Inria+Sans). Make sure it is installed on your system, or change it in [#Theme](#theme).
 
 Copy the [template](https://raw.githubusercontent.com/lelimacon/typst-minimal-cv/main/template/cv.typ) to your Typst project.
 
@@ -27,7 +27,7 @@ Copy the [template](https://raw.githubusercontent.com/lelimacon/typst-minimal-cv
 Import the library :
 
 ```typst
-#import "@preview/minimal-cv:0.1.0": *
+#import "@preview/minimal-cv:0.2.0": *
 ```
 
 Show the root `cv` function :
@@ -35,25 +35,30 @@ Show the root `cv` function :
 ```typst
 #show: cv.with(
   theme: (),
-  title: "YOUR NAME",
-  subtitle: "YOUR POSITION",
-  aside: [
-    ASIDE CONTENT
-  ]
 )
 
-MAIN CONTENT
+= John Doe
+== Developer, Developer, Developer
+
+#grid(
+  columns: (9fr, 42pt, 6fr),
+
+  [LEFT COLUMN CONTENT],
+  {}, // Empty space.
+  [RIGHT COLUMN CONTENT],
+)
 ```
 
-Several content functions are available.
+
+## Structural functions
 
 **Section**
 
 ```typst
 #section(
   theme: (),
-  "TITLE_CONTENT",
-  "BODY_CONTENT",
+  [TITLE_CONTENT],
+  [BODY_CONTENT],
 )
 ```
 
@@ -62,13 +67,15 @@ Several content functions are available.
 ```typst
 #entry(
   theme: (),
-  right: "FLOATING_CONTENT",
+  right: [FLOATING_CONTENT],
 
-  "GUTTER_CONTENT",
-  "TITLE_CONTENT",
-  "BODY_CONTENT",
+  [GUTTER_CONTENT],
+  [TITLE_CONTENT],
+  [BODY_CONTENT],
 )
 ```
+
+## Widgets
 
 **Progress bar**
 
@@ -76,52 +83,42 @@ Several content functions are available.
 #progress-bar(50%)
 ```
 
+**Chronology**
+
+Vertical bar with `start` and `end` points.
+This functions is only supported in the `#section` gutter.
+
+```typst
+#chronology(start: "1980", end: "1999")
+```
+
+
 ## Theme
 
 Customize the theme by specifying the `theme` parameter and overriding keys.
 
-### Function `cv`
-
 | Key | Type | Default
 | --- | ---- | -------
-| `spacing` | relative | `22pt`
-| `font` | relative | `"Inria Sans"`
+| `spacing` | relative | `14pt`
+| `gutter-width` | relative | `42pt`
+| `font` | str | `"Inria Sans"`
 | `font-size` | relative | `11pt`
-| `accent-color` | color | `blue`
+| `accent-color` | color | `blue.darken(30%)`
 | `body-color` | color | `rgb("222")`
-| `header-accent-color` | color | inherit
-| `header-body-color` | color | inherit
-| `main-accent-color` | color | inherit
-| `main-body-color` | color | inherit
-| `main-width` | relative | `5fr`
-| `main-gutter-width` | relative | `64pt`
-| `aside-accent-color` | color | inherit
-| `aside-body-color` | color | inherit
-| `aside-width` | relative | `3fr`
-| `aside-gutter-width` | relative | `48pt`
+| `gutter-body-color` | color | _inherit_
+| `section-style` | "underlined" \| "outlined" \| "box" \| "bullet-point" | "bullet-point"
 
-### Function `section`
-
-| Key | Type | Default
-| --- | ---- | -------
-| `gutter-size` | color | inherit
-| `accent-color` | color | inherit
-| `body-color` | color | inherit
-
-### Function `entry`
-
-| Key | Type | Default
-| --- | ---- | -------
-| `gutter-size` | color | inherit
-| `accent-color` | color | inherit
-| `body-color` | color | inherit
-
+All theme keys can be overwritten in `#section` and `#entry` structural functions.
 
 # Version history
 
-## 0.2.0
+### 0.2.0
 
-- :exclamation: Removed page configuration (customize yourself)
-- :exclamation: Remamed theme `margin` to `spacing`
-- Change theme defaults (colors, more spacing)
-- Fix progress bar
+- :sparkles: New wiget: Chronology
+- :exclamation: Major theming changes
+- :exclamation: Removed columns (aside) and titles handling
+- Removed page configuration
+
+### 0.1.0
+
+Initial version
