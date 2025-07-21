@@ -132,8 +132,8 @@
 
   set par(linebreaks: "simple", leading: 0.4 * theme.spacing) if th("spacing")
   set block(
-    above: 6pt + 0.4 * theme.spacing,
-    below: 4pt + 0.4 * theme.spacing,
+    above: 4pt + 0.8 * theme.spacing,
+    below: 1pt + 0.6 * theme.spacing,
     spacing: 2pt + 0.4 * theme.spacing,
   ) if th("spacing")
 
@@ -147,20 +147,25 @@
   show heading.where(level: 2): set text(size: 1.6 * theme.font-size) if th("font-size")
   show heading.where(level: 2): set text(fill: theme.body-color.lighten(40%)) if th("body-color")
   show heading.where(level: 2): set block(
-    above: 12pt + 0.6 * theme.spacing,
-    below: 18pt + 0.6 * theme.spacing,
+    above: 10pt + 1.0 * theme.spacing,
+    below: 12pt + 1.0 * theme.spacing,
   ) if th("spacing")
 
   show heading.where(level: 3): set text(size: 1.2 * theme.font-size) if th("font-size")
   show heading.where(level: 3): set text(fill: theme.accent-color) if th("accent-color")
   show heading.where(level: 3): set block(
-    above: 8pt + theme.spacing,
-    below: 4pt + 0.6 * theme.spacing,
-    spacing: 6pt + 0.4 * theme.spacing,
+    above: 4pt + 1.2 * theme.spacing,
+    below: 0pt + 0.6 * theme.spacing,
+    spacing: 2pt + 0.6 * theme.spacing,
   ) if th("spacing")
 
   show heading.where(level: 4): set text(size: theme.font-size) if th("font-size")
   show heading.where(level: 4): set text(fill: theme.body-color) if th("body-color")
+  show heading.where(level: 4): set block(
+    above: 40pt + 1.4 * theme.spacing,
+    below: 40pt + 0.6 * theme.spacing,
+    spacing: 2pt + 0.6 * theme.spacing,
+  ) if th("spacing")
 
   // Section.
   // HACK: Use `ellipse.inset` to store section style.
@@ -276,10 +281,6 @@
 
   show heading.where(level: 2): set text(weight: "regular")
 
-  show heading.where(level: 3): set block(above: 0pt, below: 0pt)
-
-  show heading.where(level: 4): set block(above: 0pt, below: 0pt)
-
   show label("cv-gutter"): set text(tracking: -0.5pt, style: "italic")
 
   set list(marker: ([○], [•], [-]))
@@ -316,7 +317,6 @@
         }
       }
       else if (section-style == "outlined" or section-style == "box") {
-
         it-heading
         v(0.4 * spacing)
       }
@@ -353,7 +353,7 @@
       it-section
       context {
         let spacing = ellipse.outset
-        v(0.4 * spacing)
+        v(0.2 * spacing)
       }
     }
     else if (section-style == "box") {
@@ -365,7 +365,7 @@
       it-section
       context {
         let spacing = ellipse.outset
-        v(0.4 * spacing)
+        v(0.2 * spacing)
       }
     }
     else {
@@ -444,12 +444,10 @@
       if has-title or has-right {
         grid(
           columns: (1fr, auto),
-          block({
-            heading(
-              level: 4,
-              title
-            )
-          }),
+          heading(
+            level: 4,
+            title
+          ),
           block(right)
         )
       }
