@@ -492,24 +492,23 @@
 #let progress-bar(
   progress,
 ) = {
-  // Fix for https://github.com/typst/typst/issues/3826
-  if progress == 0% {
-    progress = 0.1%
-  }
-
   context {
     let light-accent = rect.fill//.lighten(30%)
 
     rect(
       height: progress-bar-height,
       width: 100%,
-      //stroke: rect.fill,
-      fill: gradient.linear(
-        (light-accent, 0%),
-        (light-accent, progress),
-        (white, progress),
-        (white, 100%),
-      ),
+      fill: rgb("#0000"),
+      inset: 0pt,
+      [
+        #place(
+          rect(
+            width: progress,
+            stroke: 0pt,
+            fill: light-accent,
+          )
+        )
+      ]
     )
   }
 }

@@ -118,6 +118,7 @@ All theme keys can be overwritten in `#section` and `#entry` structural function
 - :exclamation: Major theming changes
 - :exclamation: Removed columns (aside) and titles handling
 - Removed page configuration
+- #1 Change progress bar implementation
 
 ### 0.1.0
 

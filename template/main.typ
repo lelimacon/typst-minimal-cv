@@ -173,7 +173,7 @@
           progress-bar(75%),
         )
         entry(
-          right: [_Hosting, CI/CD_],
+          right: [_CI/CD_],
           [Ops],
           [Azure, Pulumi],
           none,
