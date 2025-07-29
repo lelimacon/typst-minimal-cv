@@ -2,7 +2,7 @@
 name = "minimal-cv"
 version = "0.1.0"
 authors = ["lelimacon <https://github.com/lelimacon>"]
-license = "MIT"
+license = "MIT-0"
 description = "A clean and customizable CV template"
 categories = ["cv"]
 keywords = ["CV", "Curriculum Vitae", "Resume", "Minimal", "Professional"]
