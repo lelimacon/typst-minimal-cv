@@ -75,6 +75,39 @@ Show the root `cv` function :
 )
 ```
 
+
+## Theme
+
+Customize the theme in any of the above functions by specifying the `theme` parameter and overriding keys.
+
+| Key | Type | Default
+| --- | ---- | -------
+| `spacing` | relative | `14pt`
+| `gutter-width` | relative | `42pt`
+| `font` | str | `"Inria Sans"`
+| `font-size` | relative | `11pt`
+| `accent-color` | color | `blue.darken(30%)`
+| `body-color` | color | `rgb("222")`
+| `gutter-body-color` | color | _inherit_
+| `section-style` | "underlined" \| "outlined" \| "box" \| "bullet-point" | "bullet-point"
+
+
+To edit the theme anywhere else, use the `theme` function :
+
+```typst
+#show: theme.with(
+  spacing: none,
+  gutter-width: none,
+  font: none,
+  font-size: none,
+  accent-color: none,
+  body-color: none,
+  gutter-body-color: none,
+  section-style: none,
+)
+```
+
+
 ## Widgets
 
 **Progress bar**
@@ -93,23 +126,6 @@ This functions is only supported in the `#section` gutter.
 ```
 
 
-## Theme
-
-Customize the theme by specifying the `theme` parameter and overriding keys.
-
-| Key | Type | Default
-| --- | ---- | -------
-| `spacing` | relative | `14pt`
-| `gutter-width` | relative | `42pt`
-| `font` | str | `"Inria Sans"`
-| `font-size` | relative | `11pt`
-| `accent-color` | color | `blue.darken(30%)`
-| `body-color` | color | `rgb("222")`
-| `gutter-body-color` | color | _inherit_
-| `section-style` | "underlined" \| "outlined" \| "box" \| "bullet-point" | "bullet-point"
-
-All theme keys can be overwritten in `#section` and `#entry` structural functions.
-
 # Version history
 
 ### 0.2.0
@@ -118,8 +134,11 @@ All theme keys can be overwritten in `#section` and `#entry` structural function
 - :exclamation: Major theming changes
 - :exclamation: Removed columns (aside) and titles handling
 - Removed page configuration
-- #1 Change progress bar implementation
+- :bug: Changed progress bar implementation ([#1])
 
 ### 0.1.0
 
 Initial version
+
+
+[#1]: https://github.com/lelimacon/typst-minimal-cv/issues/1

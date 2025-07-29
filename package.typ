@@ -198,6 +198,7 @@
 
 
 #let theme(
+  spacing: none,
   gutter-width: none,
   font: none,
   font-size: none,
@@ -208,6 +209,7 @@
   body,
 ) = internal-theme(
   theme: (
+    spacing: spacing,
     gutter-width: gutter-width,
     font: font,
     font-size: font-size,

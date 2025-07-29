@@ -114,7 +114,7 @@
   // Right column.
   {
     show: theme.with(
-      gutter-width: 44pt,
+      gutter-width: 46pt,
       section-style: "underlined",
     )
 
