@@ -7,9 +7,7 @@ Yet another John Doe CV.
     <img src="thumbnail.png" alt="thumbnail" width="300" />
 </a>
 
-A Typst CV template that aims for :
-- Clean aesthetics
-- Easy customizability
+A Typst CV template with a focus on easy customizability.
 
 
 ## Usage
@@ -20,7 +18,7 @@ Create a new project based on the template [minimal-cv](https://typst.app/univer
 
 ### Locally
 
-The default font is ["Inria Sans"](https://fonts.google.com/specimen/Inria+Sans). Make sure it is installed on your system, or change it in [# Theme](#theme).
+The default font is ["Inria Sans"](https://fonts.google.com/specimen/Inria+Sans). Make sure it is installed on your system, or change it in [#Theme](#theme).
 
 Copy the [template](https://raw.githubusercontent.com/lelimacon/typst-minimal-cv/main/template/cv.typ) to your Typst project.
 
@@ -29,7 +27,7 @@ Copy the [template](https://raw.githubusercontent.com/lelimacon/typst-minimal-cv
 Import the library :
 
 ```typst
-#import "@preview/minimal-cv:0.1.0": *
+#import "@preview/minimal-cv:0.2.0": *
 ```
 
 Show the root `cv` function :
@@ -37,24 +35,30 @@ Show the root `cv` function :
 ```typst
 #show: cv.with(
   theme: (),
-  title: "YOUR NAME",
-  subtitle: "YOUR POSITION",
-  aside: [
-    ASIDE CONTENT
-  ]
+)
 
-MAIN CONTENT
+= John Doe
+== Developer, Developer, Developer
+
+#grid(
+  columns: (9fr, 42pt, 6fr),
+
+  [LEFT COLUMN CONTENT],
+  {}, // Empty space.
+  [RIGHT COLUMN CONTENT],
+)
 ```
 
-Several content functions are available.
+
+## Structural functions
 
 **Section**
 
 ```typst
 #section(
   theme: (),
-  "TITLE_CONTENT",
-  "BODY_CONTENT",
+  [TITLE_CONTENT],
+  [BODY_CONTENT],
 )
 ```
 
@@ -63,13 +67,48 @@ Several content functions are available.
 ```typst
 #entry(
   theme: (),
-  right: "FLOATING_CONTENT",
+  right: [FLOATING_CONTENT],
 
-  "GUTTER_CONTENT",
-  "TITLE_CONTENT",
-  "BODY_CONTENT",
+  [GUTTER_CONTENT],
+  [TITLE_CONTENT],
+  [BODY_CONTENT],
 )
 ```
+
+
+## Theme
+
+Customize the theme in any of the above functions by specifying the `theme` parameter and overriding keys.
+
+| Key | Type | Default
+| --- | ---- | -------
+| `spacing` | relative | `14pt`
+| `gutter-width` | relative | `42pt`
+| `font` | str | `"Inria Sans"`
+| `font-size` | relative | `11pt`
+| `accent-color` | color | `blue.darken(30%)`
+| `body-color` | color | `rgb("222")`
+| `gutter-body-color` | color | _inherit_
+| `section-style` | "underlined" \| "outlined" \| "box" \| "bullet-point" | "bullet-point"
+
+
+To edit the theme anywhere else, use the `theme` function :
+
+```typst
+#show: theme.with(
+  spacing: none,
+  gutter-width: none,
+  font: none,
+  font-size: none,
+  accent-color: none,
+  body-color: none,
+  gutter-body-color: none,
+  section-style: none,
+)
+```
+
+
+## Widgets
 
 **Progress bar**
 
@@ -77,42 +116,29 @@ Several content functions are available.
 #progress-bar(50%)
 ```
 
-## Theme
+**Chronology**
 
-Customize the theme by specifying the `theme` parameter and overriding 1 or more keys.
+Vertical bar with `start` and `end` points.
+This functions is only supported in the `#section` gutter.
 
-### Function `cv`
+```typst
+#chronology(start: "1980", end: "1999")
+```
 
-| Key | Type | Default
-| --- | ---- | -------
-| `margin` | relative | `22pt`
-| `font` | relative | `"Inria Sans"`
-| `font-size` | relative | `11pt`
-| `accent-color` | color | `blue`
-| `body-color` | color | `rgb("222")`
-| `header-accent-color` | color | inherit
-| `header-body-color` | color | inherit
-| `main-accent-color` | color | inherit
-| `main-body-color` | color | inherit
-| `main-width` | relative | `5fr`
-| `main-gutter-width` | relative | `64pt`
-| `aside-accent-color` | color | inherit
-| `aside-body-color` | color | inherit
-| `aside-width` | relative | `3fr`
-| `aside-gutter-width` | relative | `48pt`
 
-### Function `section`
+# Version history
 
-| Key | Type | Default
-| --- | ---- | -------
-| `gutter-size` | color | inherit
-| `accent-color` | color | inherit
-| `body-color` | color | inherit
+### 0.2.0
 
-### Function `entry`
+- :sparkles: New wiget: Chronology
+- :exclamation: Major theming changes
+- :exclamation: Removed columns (aside) and titles handling
+- Removed page configuration
+- :bug: Changed progress bar implementation ([#1])
 
-| Key | Type | Default
-| --- | ---- | -------
-| `gutter-size` | color | inherit
-| `accent-color` | color | inherit
-| `body-color` | color | inherit
+### 0.1.0
+
+Initial version
+
+
+[#1]: https://github.com/lelimacon/typst-minimal-cv/issues/1
